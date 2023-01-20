@@ -23,10 +23,10 @@ def generate_pdf_report(parser):
 
     pdf.set_font('Arial', 'B', 16)
     pdf.cell(40, 10, 'Run info')
-    pdf.ln(h='')
+    pdf.ln()
     pdf.set_font('Arial', 'B', 12)
     pdf.cell(60, 10, 'Sequence data')
-    pdf.ln(h='')
+    pdf.ln()
     pdf.set_font('Arial', '', 12)
     pdf.cell(75, 10, 'Sample ID: ' + parser.options.get_sample_name(parser.sample.sample_id))
     pdf.ln(h=5)
@@ -46,7 +46,7 @@ def generate_pdf_report(parser):
 
     pdf.set_font('Arial', 'B', 12)
     pdf.cell(160, 10, 'Reference data ')
-    pdf.ln(h='')
+    pdf.ln()
     pdf.set_font('Arial', '', 12)
     pdf.cell(175, 10, 'Reference collection: ' + parser.collection)
     pdf.ln(h=5)
@@ -65,7 +65,7 @@ def generate_pdf_report(parser):
 
     pdf.set_font('Arial', 'B', 12)
     pdf.cell(260, 10, 'Parameters ')
-    pdf.ln(h='')
+    pdf.ln()
     pdf.set_font('Arial', '', 12)
     pdf.cell(275, 10, 'Protein identity threshold (%): '
              + str(parser.config.get_identity_cutoff(parser.collection)))
@@ -96,7 +96,7 @@ def generate_pdf_report(parser):
     # Write search stats
     pdf.set_font('Arial', 'B', 16)
     pdf.cell(40, 10, 'Search stats')
-    pdf.ln(h='')
+    pdf.ln()
     pdf.set_font('Arial', 'B', 12)
     pdf.cell(65, 10, 'Number of reads found in reference DB search: ' + str(len(parser.reads)))
     pdf.ln(h=10)
@@ -283,11 +283,11 @@ def generate_protein_pdf_report(parser):
 
     pdf.set_font('Arial', 'B', 16)
     pdf.cell(40, 10, 'Run info')
-    pdf.ln(h='')
+    pdf.ln()
 
     pdf.set_font('Arial', 'B', 12)
     pdf.cell(60, 10, 'Sequence data')
-    pdf.ln(h='')
+    pdf.ln()
     pdf.set_font('Arial', '', 12)
     pdf.cell(75, 10, 'Sample ID: ' + parser.options.get_sample_id(parser.sample.sample_id))
     pdf.ln(h=5)
@@ -300,7 +300,7 @@ def generate_protein_pdf_report(parser):
 
     pdf.set_font('Arial', 'B', 12)
     pdf.cell(160, 10, 'Reference data ')
-    pdf.ln(h='')
+    pdf.ln()
     pdf.set_font('Arial', '', 12)
     pdf.cell(175, 10, 'Reference collection: ' + parser.collection)
     pdf.ln(h=5)
@@ -319,7 +319,7 @@ def generate_protein_pdf_report(parser):
 
     pdf.set_font('Arial', 'B', 12)
     pdf.cell(260, 10, 'Parameters ')
-    pdf.ln(h='')
+    pdf.ln()
     pdf.set_font('Arial', '', 12)
     pdf.cell(275, 10, 'Protein identity threshold (%): '
              + str(parser.config.get_identity_cutoff(parser.collection)))
@@ -350,7 +350,7 @@ def generate_protein_pdf_report(parser):
     # Write search stats
     pdf.set_font('Arial', 'B', 16)
     pdf.cell(40, 10, 'Search stats')
-    pdf.ln(h='')
+    pdf.ln()
     pdf.set_font('Arial', 'B', 12)
     pdf.cell(65, 10, 'Number of proteins found in reference DB search: '
              + str(len(parser.reads)))
