@@ -38,9 +38,14 @@ def run_ref_search(parser, command):
                         + parser.options.ref_output_name
                     ),
                     '--max-target-seqs',
-                    '50',
+                    '1',
                     '--masking',
                     '0',
+                    '-F',
+                    '15',
+                    '--range-culling',
+                    '--range-cover',
+                    '5',
                     '--evalue',
                     str(parser.config.get_evalue_cutoff(
                         parser.options.get_collection(parser.sample.sample_id)
@@ -80,8 +85,10 @@ def run_bgr_search(parser, command):
                         parser.sample.sample_id + '_' + parser.end + '_'
                         + parser.options.background_output_name
                     ),
-                    '--max-target-seqs',
-                    '100',
+                    '--top',
+                    '3',
+                    #'--max-target-seqs',
+                    #'100',
                     '--masking',
                     '0',
                     '--evalue',
