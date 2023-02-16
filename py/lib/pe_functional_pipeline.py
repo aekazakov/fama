@@ -39,6 +39,8 @@ def run_ref_search(parser, command):
                     ),
                     '--max-target-seqs',
                     '50',
+                    '--masking',
+                    '0',
                     '--evalue',
                     str(parser.config.get_evalue_cutoff(
                         parser.options.get_collection(parser.sample.sample_id)
@@ -80,6 +82,8 @@ def run_bgr_search(parser, command):
                     ),
                     '--max-target-seqs',
                     '100',
+                    '--masking',
+                    '0',
                     '--evalue',
                     str(
                         parser.config.get_background_db_size(
