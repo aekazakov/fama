@@ -202,7 +202,7 @@ def make_func_tax_sample_xlsx(project, scores, metric, sample_id=None, rank=None
 
         format_taxonomy_worksheet(writer, sample)
 
-    writer.save()
+    writer.close()
 
 
 def format_taxonomy_worksheet(xlsx_writer, worksheet_label):
@@ -356,7 +356,7 @@ def make_sample_tax_func_xlsx(project, scores, metric, function_id=None, rank=No
 
         format_taxonomy_worksheet(writer, 'Average')
 
-    writer.save()
+    writer.close()
 
 
 def make_assembly_xlsx(assembler):
