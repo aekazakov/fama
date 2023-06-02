@@ -10,10 +10,113 @@ from lib.diamond_parser.diamond_hit import DiamondHit
 from lib.diamond_parser.diamond_hit_list import DiamondHitList
 from lib.diamond_parser.hit_utils import compare_protein_hits_lca
 from lib.output.json_util import export_annotated_reads, export_sample
-from lib.se_functional_pipeline import run_ref_search, run_bgr_search
 from lib.output.report import generate_fasta_report, generate_protein_sample_report, \
     generate_protein_project_report
 from lib.output.krona_xml_writer import make_functions_chart
+
+
+def run_ref_search(parser, command, options=None):
+    """Runs pre-selection DIAMOND search
+
+    Args:
+        parser (:obj:DiamondParser): parser object processing an input sequence file
+        command (str): either 'blastx' or 'blastp' (see DIAMOND manual)
+    """
+    print('Starting DIAMOND')
+    diamond_args = [parser.config.diamond_path,
+                    command]
+    if options is not None:
+        diamond_args = diamond_args + options
+    diamond_args = diamond_args + ['--db',
+                                   parser.config.get_reference_diamond_db(
+                                       parser.options.get_collection(parser.sample.sample_id)
+                                   ),
+                                   '--query',
+                                   parser.options.get_fastq_path(
+                                       parser.sample.sample_id, parser.end
+                                   ),
+                                   '--out',
+                                   os.path.join(
+                                       parser.options.get_project_dir(parser.sample.sample_id),
+                                       parser.sample.sample_id + '_' + parser.end + '_'
+                                       + parser.options.ref_output_name
+                                   ),
+                                   '--max-target-seqs',
+                                   '50',
+                                   #'--max-target-seqs',
+                                   #'1',
+                                   #'--masking',
+                                   #'0',
+                                   #'-F',
+                                   #'15',
+                                   #'--range-culling',
+                                   #'--range-cover',
+                                   #'5',
+                                   '--masking',
+                                   '0',
+                                   '--evalue',
+                                   str(parser.config.get_evalue_cutoff(
+                                       parser.options.get_collection(parser.sample.sample_id)
+                                   )),
+                                   '--threads',
+                                   parser.config.threads,
+                                   '--outfmt', '6', 'qseqid', 'sseqid', 'pident', 'length',
+                                   'mismatch', 'slen', 'qstart', 'qend', 'sstart', 'send',
+                                   'evalue', 'bitscore']
+    run_external_program(diamond_args)
+    print('DIAMOND finished')
+
+
+def run_bgr_search(parser, command, options=None):
+    """Runs classification DIAMOND search
+
+    Args:
+        parser (:obj:DiamondParser): parser object processing an input sequence file
+        command (str): either 'blastx' or 'blastp' (see DIAMOND manual)
+    """
+    print('Starting DIAMOND')
+    diamond_args = [parser.config.diamond_path,
+                    command]
+    if options is not None:
+        diamond_args = diamond_args + options
+    diamond_args = diamond_args + ['--db',
+                                   parser.config.get_background_diamond_db(
+                                       parser.options.get_collection(parser.sample.sample_id)
+                                   ),
+                                   '--query',
+                                   os.path.join(
+                                       parser.options.get_project_dir(parser.sample.sample_id),
+                                       parser.sample.sample_id + '_' + parser.end + '_'
+                                       + parser.options.ref_hits_fastq_name
+                                   ),
+                                   '--out',
+                                   os.path.join(
+                                       parser.options.get_project_dir(parser.sample.sample_id),
+                                       parser.sample.sample_id + '_' + parser.end + '_'
+                                       + parser.options.background_output_name
+                                   ),
+                                   #'--max-target-seqs',
+                                   #'100',
+                                   '--top',
+                                   '3',
+                                   '--masking',
+                                   '0',
+                                   '--evalue',
+                                   str(
+                                       parser.config.get_background_db_size(
+                                           parser.options.get_collection(parser.sample.sample_id)
+                                       ) * parser.config.get_evalue_cutoff(
+                                           parser.options.get_collection(parser.sample.sample_id)
+                                       ) / parser.config.get_reference_db_size(
+                                           parser.options.get_collection(parser.sample.sample_id)
+                                       )),
+                                   '--threads',
+                                   parser.config.threads,
+                                   '--outfmt', '6', 'qseqid', 'sseqid', 'pident', 'length',
+                                   'mismatch', 'slen', 'qstart', 'qend', 'sstart', 'send',
+                                   'evalue', 'bitscore']
+    run_external_program(diamond_args)
+    print('DIAMOND finished')
 
 
 def import_protein_fasta(parser):
