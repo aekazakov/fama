@@ -5,6 +5,7 @@ import csv
 
 from lib.project.sample import Sample
 from lib.project.project import Project
+from lib.utils.utils import run_external_program
 from lib.diamond_parser.diamond_parser import DiamondParser
 from lib.diamond_parser.diamond_hit import DiamondHit
 from lib.diamond_parser.diamond_hit_list import DiamondHitList
